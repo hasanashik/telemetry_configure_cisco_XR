@@ -1,0 +1,32 @@
+conf
+telemetry model-driven
+ destination-group DGroup1
+  address-family ipv4 server_ip port 57000
+   encoding self-describing-gpb
+   protocol grpc no-tls
+  !
+ !
+ sensor-group optics
+  sensor-path Cisco-IOS-XR-controller-optics-oper:optics-oper/optics-ports
+  sensor-path Cisco-IOS-XR-controller-optics-oper:optics-oper/optics-ports/optics-port/optics-info
+  sensor-path Cisco-IOS-XR-controller-optics-oper:optics-oper/optics-ports/optics-port/optics-lanes/optics-lane
+ !
+ sensor-group interfaces
+  sensor-path Cisco-IOS-XR-pfi-im-cmd-oper:interfaces/interface-summary
+  sensor-path Cisco-IOS-XR-bundlemgr-oper:bundles-adjacency/nodes/node/brief
+  sensor-path Cisco-IOS-XR-infra-statsd-oper:infra-statistics/interfaces/interface/latest/generic-counters
+  sensor-path Cisco-IOS-XR-qos-ma-oper:qos/interface-table/interface/member-interfaces/member-interface/output
+ ! 
+ ! interval 30 sec
+ subscription optics_sub
+  sensor-group-id optics sample-interval 30000
+  destination-id DGroup1
+ !
+ ! interval 30 sec
+ subscription interfaces_sub
+  sensor-group-id interfaces sample-interval 30000
+  destination-id DGroup1
+ !
+!
+
+
